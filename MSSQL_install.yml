@@ -1,0 +1,26 @@
+--
+- hosts: windows
+tasks:
+
+- name: Create temporary directory
+  win_file:
+    path: C:\ansible
+    state: directory
+- name: Create temporary directory
+  win_file:
+    path: C:\tmp
+    state: directory
+- name: Copy Config in path C:\ansible
+  win_copy:
+    src: /home/ansible/configurationfile.ini
+    dest: C:\ansible\ConfigurationFile.INI
+- name: Copy a script mssql_install in path C:\ansible
+  win_copy:
+    src: /home/ansible/files/mount.ps1
+    dest: C:\ansible\mssql_install.ps1
+- name: Copy ISO in path C:\tmp
+  win_copy:
+    src: /home/ansible/files/SQLServer2014SP2-FullSlipstream-x64-ENU.iso
+    dest: C:\tmp\SQLServer2014SP2.iso
+- name: Installing MSSQL2014
+  win_command: PowerShell.exe «C:\ansible\mssql_install.ps1»
