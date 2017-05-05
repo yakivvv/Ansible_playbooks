@@ -1,0 +1,46 @@
+- hosts: windows
+tasks:
+ - name: Install IIS (Web-Server)
+   win_feature:
+      name: Web-Server
+      state: present
+ - name: Install IIS (Web-WebServer)
+   win_feature:
+      name: Web-WebServer
+      state: present
+ - name: Install IIS (Web-Asp-Net45)
+   win_feature:
+      name: Web-Asp-Net45
+      state: present
+ - name: Install IIS (Web-ISAPI-Ext)
+   win_feature:
+      name: Web-ISAPI-Ext
+      state: present
+ - name: Install IIS (Web-ISAPI-Filter)
+   win_feature:
+      name: Web-ISAPI-Filter
+      state: present
+ - name: Install IIS (WAS-NET-Environment)
+   win_feature:
+      name: WAS-NET-Environment
+      state: present
+ - name: Install IIS (Web-Http-Redirect)
+   win_feature:
+      name: Web-Http-Redirect
+      state: present
+ - name: Install IIS (Web-Windows-Auth)
+   win_feature:
+      name: Web-Windows-Auth
+      state: present
+ - name: Install IIS (Web-Filtering)
+   win_feature:
+      name: Web-Filtering
+      state: present
+ - name: Install IIS (Web-Mgmt-Console)
+   win_feature:
+      name: Web-Mgmt-Console
+      state: present
+ - name: Install IIS (Web-Mgmt-Tools)
+   win_feature:
+      name: Web-Mgmt-Tools
+      state: present
