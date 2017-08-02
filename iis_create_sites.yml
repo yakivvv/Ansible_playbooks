@@ -1,0 +1,28 @@
+---
+- hosts: windows
+  tasks:
+  - name: PS Set-ExecutionPolicy Unrestricted
+    win_command: PowerShell.exe Set-ExecutionPolicy Unrestricted
+
+  - name: Create $name directory
+    win_file:
+      path: C:\inetpub\name
+      state: directory
+  - name: Create $name IIS site
+    win_iis_website:
+      name: $name
+      state: started
+      port: 80
+#      ip: 127.0.0.1
+#      hostname: acme.local
+      application_pool: $name
+      physical_path: C:\inetpub\$name
+      parameters: logfile.directory:C:\inetpub\$name\logs
+    register: website
+
+  - name: Add a HTTPS binding and select certificate to $name
+    win_iis_webbinding:
+      name: $name
+      protocol: https
+#      certificate_hash: B0D0FA8408FC67B230338FCA584D03792DA73F4C
+      state: present
