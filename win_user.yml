@@ -1,0 +1,9 @@
+---
+- hosts: windows
+  tasks:
+  - name: Add User Deploy
+    win_user:
+      name: deploy
+      password: "password"
+      state: present
+      groups: Users
