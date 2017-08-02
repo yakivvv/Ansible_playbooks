@@ -1,0 +1,10 @@
+---
+- hosts: windows
+  tasks:
+  - name : install ssl certificate to windows
+    win_certificate:
+     pfx_file: 'c:\Temp\certname.pfx'
+     password: 'XXXXX'
+     state: present
+     location: LocalMachine
+     store_name: 'My'
