@@ -1,0 +1,39 @@
+---
+- hosts: windows
+  tasks:
+  - name: Install IIS (Web-Server and Web-Common-Http)
+    win_feature:
+      name: Web-Server,Web-Common-Http,Web-Default-Doc,Web-Dir-Browsing,Web-Http-Errors,Web-Static-Content,Web-Http-Redirect
+      state: present
+
+  - name: Install IIS (Health and Diagnostics)
+    win_feature:
+      name: Web-Request-Monitor,Web-Http-Logging,Web-Log-Libraries
+      state: present
+
+  - name: Install IIS (Performance)
+    win_feature:
+      name: Web-Stat-Compression,Web-Dyn-Compression
+      state: present
+
+  - name: Install IIS (Security)
+    win_feature:
+      name: Web-Filtering,Web-IP-Security
+      state: present
+
+
+  - name: Install IIS (Application Development)
+    win_feature:
+#      name: Web-Net-Ext35,Web-Asp-Net35,Web-Net-Ext45,Web-Asp-Net45,Web-ISAPI-Ext,Web-ISAPI-Filter
+      name: Web-Asp-Net,Web-Net-Ext45,Web-Asp-Net45,Web-ISAPI-Ext,Web-ISAPI-Filter
+      state: present
+
+  - name: install .NET framework
+    win_feature:
+       name: NET-Framework-Core,NET-Framework-Features
+       state: present
+
+  - name: Install IIS (Management Tools)
+    win_feature:
+      name: Web-Mgmt-Console,Web-Mgmt-Tools,Web-Scripting-Tools
+      state: present
