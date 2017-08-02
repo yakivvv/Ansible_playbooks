@@ -1,0 +1,23 @@
+- hosts: windows
+  tasks:
+  - name: Firewall rule to allow site on TCP port 80,443,9000-9010,9900
+    action: win_firewall_rule
+    args:
+        name: $name
+        enable: yes
+        state: present
+        localport: 80,443,9000-9010,9900
+        action: allow
+        direction: In
+        protocol: TCP
+
+  - name: Firewall rule to allow site on TCP port 8021
+    action: win_firewall_rule
+    args:
+        name: $name
+        enable: yes
+        state: present
+        localport: 8021
+        action: allow
+        direction: In
+        protocol: TCP
