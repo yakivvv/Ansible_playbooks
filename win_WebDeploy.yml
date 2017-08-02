@@ -1,0 +1,31 @@
+---
+- hosts: windows
+  tasks:
+  - name: Create "C:\ansible" directory
+    win_file:
+      path: C:\ansible
+      state: directory
+
+  - name: Copy WebDeploy_amd64_ru-RU.msi
+    win_copy:
+      src: /etc/ansible/files/WebDeploy_amd64_ru-RU.msi
+      dest: C:\ansible\WebDeploy_amd64_ru-RU.msi
+#      remote_src: True
+
+  - name: Install an MSI file
+    win_msi:
+      path: C:\ansible\WebDeploy_amd64_ru-RU.msi
+      wait: true
+
+
+  - name: Copy rewrite_amd64_ru-RU.msi
+    win_copy:
+      src: /etc/ansible/files/rewrite_amd64_ru-RU.msi
+      dest: C:\ansible\rewrite_amd64_ru-RU.msi
+#      remote_src: True
+
+  - name: Install an MSI file
+    win_msi:
+      path: C:\ansible\rewrite_amd64_ru-RU.msi
+      wait: true
+
