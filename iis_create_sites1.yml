@@ -1,0 +1,150 @@
+---
+- hosts: windows
+  tasks:
+  - name: PS Set-ExecutionPolicy Unrestricted
+    win_command: PowerShell.exe Set-ExecutionPolicy Unrestricted
+
+  - name: Create "site1.com" directory
+    win_file:
+      path: C:\inetpub\site1.com
+      state: directory
+
+  - name: Add IIS_IUSRS allow rights
+    win_acl:
+      path: C:\inetpub\site1.com
+      user: SRV\IIS_IUSRS
+      rights: FullControl
+      type: allow
+      state: present
+      inherit: ContainerInherit, ObjectInherit
+#      propagation: 'None'
+
+  - name: Add IIS_IUSRS allow rights
+    win_acl:
+      path: C:\inetpub\site1.com
+      user: IUSR
+      rights: FullControl
+      type: allow
+      state: present
+      inherit: ContainerInherit, ObjectInherit
+#      propagation: 'None'
+
+  - name: Create "site1.com" IIS site
+    win_iis_website:
+      name: "site1.com"
+      state: started
+      port: 80
+#      ip: 127.0.0.1
+      hostname: site1.com
+      application_pool: "site1.com"
+      physical_path: C:\inetpub\site1.com
+      parameters: logfile.directory:C:\inetpub\site1.com\logs
+    register: website
+
+  - name: Add a HTTPS binding and select certificate to iiko.net
+    win_iis_webbinding:
+      name: site1.com
+      protocol: https
+#      certificate_hash: B0D0FA8408FC67B230338FCA584D03792DA73F4C
+      state: present
+
+  - name: Add a HTTP binding and select certificate to iiko.net
+    win_iis_webbinding:
+      name: site1.com
+      protocol: http
+#      certificate_hash: B0D0FA8408FC67B230338FCA584D03792DA73F4C
+      state: present
+
+
+  - name: Create a site1.com application pool in 'Started' state
+    win_iis_webapppool:
+      name: site1.com
+      state: started
+
+
+#----------------------------------------------------------------------
+  - name: Create "site2.com" directory
+    win_file:
+      path: C:\inetpub\site2.com
+      state: directory
+
+  - name: Add IIS_IUSRS allow rights
+    win_acl:
+      path: C:\inetpub\site2.com
+      user: SRV\IIS_IUSRS
+      rights: FullControl
+      type: allow
+      state: present
+      inherit: ContainerInherit, ObjectInherit
+#      propagation: 'None'
+
+  - name: Add IIS_IUSRS allow rights
+    win_acl:
+      path: C:\inetpub\site2.com
+      user: IUSR
+      rights: FullControl
+      type: allow
+      state: present
+      inherit: ContainerInherit, ObjectInherit
+#      propagation: 'None'
+
+  - name: Create "site2.com" IIS site
+    win_iis_website:
+      name: "site2.com"
+      state: started
+      port: 80
+#      ip: 127.0.0.1
+      hostname: site2.com
+      application_pool: "site2.com"
+      physical_path: C:\inetpub\site2.com
+      parameters: logfile.directory:C:\inetpub\site2.com\logs
+    register: website
+
+  - name: Create a site2.com application pool in 'Started' state
+    win_iis_webapppool:
+      name: site2.com
+      state: started
+
+
+#---------------------------------------------------------------------
+  - name: Create "site3.com" directory
+    win_file:
+      path: C:\inetpub\site3.com
+      state: directory
+
+  - name: Add IIS_IUSRS allow rights
+    win_acl:
+      path: C:\inetpub\site3.com
+      user: SRV\IIS_IUSRS
+      rights: FullControl
+      type: allow
+      state: present
+      inherit: ContainerInherit, ObjectInherit
+#      propagation: 'None'
+
+  - name: Add IIS_IUSRS allow rights
+    win_acl:
+      path: C:\inetpub\site3.com
+      user: SRV\IUSR
+      rights: FullControl
+      type: allow
+      state: present
+      inherit: ContainerInherit, ObjectInherit
+#      propagation: 'None'
+
+  - name: Create "site3.com" IIS site
+    win_iis_website:
+      name: "site3.com"
+      state: started
+      port: 80
+#      ip: 127.0.0.1
+      hostname: site3.com
+      application_pool: "site1.com"
+      physical_path: C:\inetpub\site3.com
+      parameters: logfile.directory:C:\inetpub\site3.com\logs
+    register: website
+
+  - name: Create a site3.com application pool in 'Started' state
+    win_iis_webapppool:
+      name: site3.com
+      state: started
