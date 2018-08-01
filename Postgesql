@@ -1,0 +1,18 @@
+---
+- hosts: ubuntu
+  tasks:
+  - name: Install Postgresql
+    apt:
+      name: "{{ packages }}"
+    vars:
+      packages:
+      - postgresql-contrib
+      - postgresql
+
+  - cron:
+      name: "Backup Postgresql"
+      minute: "0"
+      hour: "0"
+      job: "pg_basebackup -x --format=tar -h 127.0.0.1 -U backup -D - |ssh remote_user@remote_host "tar xf - -C /backup/""
+
+
